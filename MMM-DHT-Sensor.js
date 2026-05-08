@@ -15,6 +15,8 @@ Module.register("MMM-DHT-Sensor", {
 		debug: false,
 		sensorPin: 2,
 		sensorType: 22,
+		temperatureOffset: 0,
+    	humidityOffset: 0,
 	},
 
 	start: function () {
@@ -77,8 +79,8 @@ Module.register("MMM-DHT-Sensor", {
 		}
 
 		const roundToTwo = (value) => Math.round(value * 100) / 100;
-		const celsius = roundToTwo(rawTemp);
-		const humidity = roundToTwo(rawHumidity);
+		const celsius = roundToTwo(rawTemp + this.config.temperatureOffset);
+		const humidity = roundToTwo(rawHumidity + this.config.humidityOffset);
 		this.temperature =
 			this.config.units === "imperial"
 				? roundToTwo((celsius * 9) / 5 + 32)
